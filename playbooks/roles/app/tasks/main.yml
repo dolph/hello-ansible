@@ -1,0 +1,31 @@
+---
+
+- name: install the latest version of git
+  apt: pkg=git state=latest
+
+- name: fetch application
+  git: repo=http://gist.github.com/6049805.git
+       dest=/var/www/hello
+
+- name: install the latest version of gunicorn
+  apt: pkg=gunicorn state=latest
+
+- name: install the latest version of python-gevent
+  apt: pkg=python-gevent state=latest
+
+- name: create application config directory
+  file: path=/etc/hello/ state=directory mode=0644
+
+- name: deploy gunicorn config for gunicorn
+  template: src=gunicorn.conf.py dest=/etc/hello/gunicorn.conf.py
+  notify: restart supervisor
+
+- name: install the latest version of supervisor
+  apt: pkg=supervisor state=latest
+
+- name: deploy hello supervisor config
+  copy: src=supervisor.conf dest=/etc/supervisor/conf.d/hello.conf
+  notify: restart supervisor
+
+- name: ensure supervisor is running
+  service: name=supervisor state=started
