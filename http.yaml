@@ -1,0 +1,12 @@
+---
+- hosts: http
+  vars:
+    http_port: 80
+  tasks:
+  - name: install the latest version of nginx
+    yum: pkg=nginx state=latest
+  - name: ensure nginx is running
+    service: name=nginx state=started
+  handlers:
+    - name: restart nginx
+      service: name=nginx state=restarted
