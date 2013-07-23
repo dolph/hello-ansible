@@ -36,5 +36,5 @@
 - name: update supervisor configuration
   command: supervisorctl update
 
-- name: ensure gunicorn is running
-  supervisorctl: name=gunicorn state=started
+#- name: ensure gunicorn is running
+#  supervisorctl: name=gunicorn state=started
