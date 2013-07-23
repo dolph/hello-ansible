@@ -1,6 +1,6 @@
 Vagrant.configure("2") do |config|
-  config.vm.box = "ubuntu-13.04-64bit-daily"
-  config.vm.box_url = "http://cloud-images.ubuntu.com/raring/current/raring-server-cloudimg-vagrant-amd64-disk1.box"
+  config.vm.box = "precise64"
+  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
 
   config.vm.define :http do |machine|
     machine.vm.network :forwarded_port, host: 8000, guest: 80
