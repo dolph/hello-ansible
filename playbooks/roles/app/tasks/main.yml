@@ -29,7 +29,7 @@
   notify: reload supervisor
 
 - name: ensure supervisor is running
-  service: name=supervisor state=started
+  service: name=supervisor state=started enabled=true
 
 - name: ensure gunicorn is running
   supervisorctl: name=gunicorn state=started
