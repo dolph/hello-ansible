@@ -26,10 +26,15 @@
 
 - name: deploy hello supervisor config
   copy: src=supervisor.conf dest=/etc/supervisor/conf.d/hello.conf
-  notify: reload supervisor
 
 - name: ensure supervisor is running
   service: name=supervisor state=started enabled=true
+
+- name: reread supervisor configuration
+  command: supervisorctl reread
+
+- name: update supervisor configuration
+  command: supervisorctl update
 
 - name: ensure gunicorn is running
   supervisorctl: name=gunicorn state=started
