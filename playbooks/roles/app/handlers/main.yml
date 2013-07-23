@@ -1,4 +1,7 @@
 ---
 
-- name: restart supervisor
-  service: name=supervisor state=restarted
+- name: reload supervisor
+  service: name=supervisor state=force-reload
+
+- name: reload gunicorn
+  supervisorctl: name=gunicorn state=restarted

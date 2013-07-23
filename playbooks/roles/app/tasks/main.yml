@@ -6,6 +6,7 @@
 - name: fetch application
   git: repo=http://gist.github.com/6049805.git
        dest=/var/www/hello
+  notify: reload gunicorn
 
 - name: install the latest version of gunicorn
   apt: pkg=gunicorn state=latest
@@ -18,14 +19,17 @@
 
 - name: deploy gunicorn config for gunicorn
   template: src=gunicorn.conf.py dest=/etc/hello/gunicorn.conf.py
-  notify: restart supervisor
+  notify: reload gunicorn
 
 - name: install the latest version of supervisor
   apt: pkg=supervisor state=latest
 
 - name: deploy hello supervisor config
   copy: src=supervisor.conf dest=/etc/supervisor/conf.d/hello.conf
-  notify: restart supervisor
+  notify: reload supervisor
 
 - name: ensure supervisor is running
   service: name=supervisor state=started
+
+- name: ensure gunicorn is running
+  supervisorctl: name=gunicorn state=started
