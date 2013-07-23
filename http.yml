@@ -3,8 +3,3 @@
   roles:
      - common
      - http
-  vars:
-    http_port: 80
-  handlers:
-    - name: restart nginx
-      service: name=nginx state=restarted
