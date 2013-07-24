@@ -1,27 +1,35 @@
 ---
 
-- name: install application dependencies
+- name: install apt packages
   apt: pkg={{ item }} state=latest
   with_items:
-    - gunicorn
+    - git
+    - libevent-dev
+    - libzmq-dev
+    - python-dev
     - python-gevent
     - python-virtualenv
-    - git
+
+- name: install pip packages
+  pip: name={{ item }} state=latest
+  with_items:
+    - circus
+    - circus-web
+    - chaussette
+    - meinheld
 
 - name: fetch application
   git: repo=http://gist.github.com/6049805.git
        dest=/var/www/hello
-  notify: reload app
 
 - name: create application config directory
   file: path=/etc/hello/ state=directory mode=0644
 
-- name: deploy gunicorn config
-  template: src=gunicorn.conf.py dest=/etc/hello/gunicorn.conf.py
-  notify: reload app
+- name: deploy circus config
+  copy: src=circus.ini dest=/etc/circus.ini
 
 - name: deploy upstart config
-  copy: src=upstart-hello.conf dest=/etc/init/hello.conf
+  copy: src=circus.conf dest=/etc/init/circus.conf
 
 - name: ensure app is running
-  service: name=hello state=started enabled=true
+  service: name=circus state=started enabled=true
