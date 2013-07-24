@@ -1,4 +1,4 @@
 ---
 
-- name: reload gunicorn
-  supervisorctl: name=gunicorn state=restarted
+- name: reload app
+  service: name=hello state=restarted
