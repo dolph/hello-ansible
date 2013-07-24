@@ -1,6 +1,5 @@
 ---
 - hosts: app
-  # connection: fireball
   roles:
      - common
      - app
