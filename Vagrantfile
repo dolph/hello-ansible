@@ -22,6 +22,8 @@ Vagrant.configure("2") do |config|
     machine.vm.provision :ansible do |ansible|
         ansible.playbook = "site.yml"
         ansible.inventory_file = "ansible_hosts"
+        ansible.sudo = true
+        ansible.sudo_user = 'root'
     end
   end
 end
