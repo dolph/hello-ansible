@@ -32,4 +32,8 @@
   copy: src=circus.conf dest=/etc/init/circus.conf
 
 - name: ensure app is running
-  service: name=circus state=started enabled=true
+  service: name=circus state=started
+
+# BUG(https://github.com/ansible/ansible/issues/2189): always shows changed
+- name: ensure app runs at startup
+  service: name=circus enabled=true

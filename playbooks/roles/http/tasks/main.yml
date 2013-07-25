@@ -12,4 +12,8 @@
   notify: reload nginx
 
 - name: ensure nginx is running
-  service: name=nginx state=started enabled=true
+  service: name=nginx state=started
+
+# BUG(https://github.com/ansible/ansible/issues/2189): always shows changed
+- name: start nginx on boot
+  service: name=nginx enabled=yes
