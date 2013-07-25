@@ -11,18 +11,21 @@
     - python-virtualenv
 
 - name: install pip packages
-  pip: name={{ item }} state=present
-       virtualenv=/var/venv/hello/
+  pip: name={{ item }} state=latest
   with_items:
+    - pip
     - circus
     - circus-web
-    - chaussette
-    - meinheld
   notify: restart app
 
-- name: fetch application
-  git: repo=http://gist.github.com/6049805.git
-       dest=/var/www/hello
+- name: install pip packages
+  pip: name={{ item }} state=latest
+       virtualenv=/var/venv/hello/
+  with_items:
+    - pip
+    - chaussette
+    - meinheld
+    - 'git+http://gist.github.com/6049805.git#egg=hello'
   notify: restart app
 
 - name: deploy circus config
