@@ -1,1 +1,4 @@
 ---
+
+- name: restart app
+  service: name=circus state=restarted

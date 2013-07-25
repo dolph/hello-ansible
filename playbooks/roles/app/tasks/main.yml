@@ -12,24 +12,26 @@
 
 - name: install pip packages
   pip: name={{ item }} state=present
+       virtualenv=/var/venv/hello/
   with_items:
     - circus
     - circus-web
     - chaussette
     - meinheld
+  notify: restart app
 
 - name: fetch application
   git: repo=http://gist.github.com/6049805.git
        dest=/var/www/hello
-
-- name: create application config directory
-  file: path=/etc/hello/ state=directory mode=0644
+  notify: restart app
 
 - name: deploy circus config
   copy: src=circus.ini dest=/etc/circus.ini
+  notify: restart app
 
-- name: deploy upstart config
+- name: deploy circus upstart config
   copy: src=circus.conf dest=/etc/init/circus.conf
+  notify: restart app
 
 - name: ensure app is running
   service: name=circus state=started
