@@ -1,7 +1,7 @@
 ---
 
 - name: install apt packages
-  apt: pkg={{ item }} state=latest
+  apt: pkg={{ item }} state=present
   with_items:
     - git
     - libevent-dev
@@ -11,7 +11,7 @@
     - python-virtualenv
 
 - name: install pip packages
-  pip: name={{ item }} state=latest
+  pip: name={{ item }} state=present
   with_items:
     - circus
     - circus-web
